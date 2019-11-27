@@ -167,7 +167,7 @@ SM.extend({
 
 SM.extend({
     prefix: "SMConfigs2",
-    regexNames: /OVERLAY\#|WIDTH\#|HEIGHT\#|TOP\#|RIGHT\#|BOTTOM\#|LEFT\#|VERTICAL\#|HORIZONTAL\#|NOTE\#|PROPERTY\#|LITE\#/,
+    regexNames: /(?:\#(?:width|height|spacing|properties)-(?:left|right|center|top|bottom|middle|horizontal|vertical))|(?:\#(?:coordinate|overlay))|(?:OVERLAY|WIDTH|HEIGHT|TOP|RIGHT|BOTTOM|LEFT|VERTICAL|HORIZONTAL|NOTE|PROPERTY|LITE)\#/,
     colors: {
         overlay: {
             layer: { r: 1, g: 0.333333, b: 0, a: 0.3 },
