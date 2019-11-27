@@ -583,10 +583,14 @@ SM.extend({
         }
     },
     clearAllMarks: function(){
-        var layers = this.page.children().objectEnumerator();
-        while(layer = layers.nextObject()) {
-            if(this.is(layer, MSLayerGroup) && this.regexNames.exec(layer.name())){
-                this.removeLayer(layer)
+        var targets = this.selection.length ? this.selection : [ this.page ];
+        for (let i = 0; i < targets.length; i++){
+            var  current = targets[i];
+            var layers = current.children().objectEnumerator();
+            while(layer = layers.nextObject()) {
+                if(this.is(layer, MSLayerGroup) && this.regexNames.exec(layer.name())){
+                    this.removeLayer(layer)
+                }
             }
         }
     },
