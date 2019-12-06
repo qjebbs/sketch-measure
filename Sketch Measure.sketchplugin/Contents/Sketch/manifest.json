@@ -175,7 +175,7 @@
         "title" : "Sketch Measure"
     },
     "identifier": "com.utom.measure",
-    "appcast": "https://raw.githubusercontent.com/utom/sketch-measure/master/appcast.xml",
+    "appcast": "https://raw.githubusercontent.com/qjebbs/sketch-measure/master/appcast.xml",
     "homepage": "http://utom.design/measure/",
     "version": "2.8.1",
     "description" : "Make it a fun to create spec for developers and teammates",
