@@ -545,7 +545,7 @@ var I18N = {},
                 pagesSelect = [],
                 pagesData = {};
             artboardListHTML.push('<ul class="artboard-list">');
-            $.each(this.project.artboards.sort((a, b) => a.name.localeCompare(b.name)), function(index, artboard){
+            $.each(this.project.artboards, function(index, artboard){
                 if(!pagesData[artboard.pageObjectID]){
                     pagesData[artboard.pageObjectID] = {
                         name: artboard.pageName,
