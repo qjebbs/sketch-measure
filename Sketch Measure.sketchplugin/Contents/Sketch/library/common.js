@@ -700,6 +700,51 @@ SM.extend({
             }
         }
     },
+    calcArtboardsRow: function (artboardDatas) {
+        let curRow = 0;
+        let unCalcData = artboardDatas;
+        let rowTop = 0;
+        let rowBottom = 0;
+        while (unCalcData.length) {
+            curRow++;
+            // Find the top most artboard to start the row
+            let topMost = unCalcData[0];
+            for (let item of unCalcData) {
+                if (topMost.y1 > item.y1) {
+                    topMost = item;
+                }
+            }
+            // console.log("top most: " + topMost.name);
+            rowTop = topMost.y1;
+            rowBottom = topMost.y2;
+            // Find intersecting artboards
+            let isRangeExtened = true;
+            while (isRangeExtened) {
+                // Row range may updates when new item found,
+                // new range could include more items.
+                // So, loop until range not extended.
+                isRangeExtened = false;
+                for (let item of artboardDatas.filter(a => !a.row)) {
+                    // If not beneath or above the range,
+                    // we found an intersecting artboard.
+                    if (!(item.y1 > rowBottom || item.y2 < rowTop)) {
+                        // Extend row range.
+                        if (rowTop > item.y1) {
+                            rowTop = item.y1;
+                            isRangeExtened = true;
+                        }
+                        if (rowBottom < item.y2) {
+                            rowBottom = item.y2;
+                            isRangeExtened = true;
+                        }
+                        item.row = curRow;
+                    }
+                }
+            }
+            // Calculate next row.
+            unCalcData = artboardDatas.filter(a => !a.row)
+        }
+    }
 });
 
 // configs.js
@@ -2978,10 +3023,16 @@ SM.extend({
                 artboardData.name = this.toJSString(artboard.name());
                 artboardData.objectID = this.toJSString(artboard.objectID());
                 artboardData.MSArtboardGroup = artboard;
+                artboardData.x1 = artboard.rect().origin.x;
+                artboardData.y1 = artboard.rect().origin.y;
+                artboardData.x2 = artboardData.x1 + artboard.rect().size.width;
+                artboardData.y2 = artboardData.y1 + artboard.rect().size.height;
+                artboardData.row = undefined;
                 pageData.artboards.push(artboardData);
                 // }
             }
-            pageData.artboards.reverse()
+            this.calcArtboardsRow(pageData.artboards);
+            pageData.artboards.sort((a, b) => a.row > b.row || (a.row == b.row && a.x1 > b.x1));
             data.pages.push(pageData);
         }
 
