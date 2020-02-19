@@ -1111,7 +1111,7 @@ SM.extend({
     },
     Toolbar: function () {
         var self = this,
-            identifier = "com.utom.measure",
+            identifier = "co.jebbs.measure",
             threadDictionary = NSThread.mainThread().threadDictionary(),
             Toolbar = threadDictionary[identifier];
 
@@ -2330,7 +2330,7 @@ SM.extend({
             height: 451,
             data: data,
             floatWindow: true,
-            identifier: "com.utom.measure.colors",
+            identifier: "co.jebbs.measure.colors",
             callback: function (data) {
                 var colors = data;
                 self.configs = self.setConfigs({

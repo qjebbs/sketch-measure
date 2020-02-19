@@ -1,5 +1,5 @@
 {
-    "author": "utom",
+    "author": "utom & Jebbs",
     "commands" : [
         {
             "name": "Toolbar",
@@ -174,11 +174,11 @@
         ],
         "title" : "Sketch Measure"
     },
-    "identifier": "com.utom.measure",
-    "appcast": "https://raw.githubusercontent.com/utom/sketch-measure/master/appcast.xml",
+    "identifier": "co.jebbs.measure",
+    "appcast": "https://raw.githubusercontent.com/qjebbs/sketch-measure/master/appcast.xml",
     "homepage": "http://utom.design/measure/",
-    "version": "2.8.1",
+    "version": "2.9.0",
     "description" : "Make it a fun to create spec for developers and teammates",
-    "authorEmail" : "utombox@gmail.com",
+    "authorEmail" : "qjebbs@gmail.com",
     "name" : "Sketch Measure"
 }
