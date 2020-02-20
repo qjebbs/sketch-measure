@@ -3032,7 +3032,11 @@ SM.extend({
                 // }
             }
             this.calcArtboardsRow(pageData.artboards);
-            pageData.artboards.sort((a, b) => a.row > b.row || (a.row == b.row && a.x1 > b.x1));
+            pageData.artboards.sort((a, b) => {
+                return a.row > b.row ||
+                    (a.row == b.row && a.x1 > b.x1) ||
+                    (a.row == b.row && a.x1 == b.x1 && a.y1 > b.y2)
+            });
             data.pages.push(pageData);
         }
 
