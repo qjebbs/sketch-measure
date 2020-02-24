@@ -208,6 +208,7 @@ button{
 .selectbox{
     /*position: relative;*/
     height: 28px;
+    margin-bottom: 16px;
 }
 .selectwrap{
     position: relative;
@@ -410,6 +411,9 @@ button{
 }
 .color-format:focus .selectwrap{
     margin-top: -166px;
+}
+.artboard-order:focus .selectwrap{
+    margin-top: -236px;
 }
 .color-format .selectwrap label{
     height: auto;

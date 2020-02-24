@@ -11,7 +11,6 @@
     <script type="text/javascript" src="assets/js/jquery-2.2.4.min.js"></script>
     <script type="text/javascript" src="assets/js/common.js"></script>
     <script type="text/javascript">
-    <!--
     var getDesignResolutionID = function(scale, unit){
             var scale = scale || 1,
                 unit = unit || 'px';
@@ -44,14 +43,15 @@
             SMAction('submit', {
                 scale: $('input[name=scale]').val(),
                 unit: $('input[name=unit]').val(),
-                colorFormat: $('input[name=format]:checked').val()
+                colorFormat: $('input[name=format]:checked').val(),
+                artboardOrder: $('input[name=artboardOrder]:checked').val()
             });
             console.log(window.location.hash)
         },
         init = function(data){
             $('body').html([
                 '<div class="container">',
-                    '<div class="options" style="height:194px">',
+                    '<div class="options" style="height:264px">',
                         '<div class="resolution selectbox mrb16" tabindex="0">',
                             '<div class="selectwrap">',
                                 '<h3>' + _('Design resolution') + '</h3>',
@@ -100,6 +100,18 @@
                                 '</ul>',
                             '</div>',
                         '</div>',
+                        '<h3 class="title">' + _('Artboard order') + '</h3>',
+                        '<div class="artboard-order selectbox" tabindex="0">',
+                            '<div class="selectwrap">',
+                                '<h3>' + _('Artboard order') + '</h3>',
+                                '<p></p>',
+                                '<ul>',
+                                    '<li><label id="artboard-rows"><input type="radio" name="artboardOrder" value="artboard-rows"><span>' + _('By artboard rows') + '</span><i></i></label></li>',
+                                    '<li><label id="artboard-cols"><input type="radio" name="artboardOrder" value="artboard-cols"><span>' + _('By artboard columns') + '</span><i></i></label></li>',
+                                    '<li><label id="layer-order"><input type="radio" name="artboardOrder" value="layer-order"><span>' + _('By layer order') + '</span><i></i></label></li>',
+                                '</ul>',
+                            '</div>',
+                        '</div>',
                     '</div>',
                     '<div class="footer">',
                         '<button id="submit" class="submit">' + _('Save') + '</button>',
@@ -109,7 +121,8 @@
             var data = $.extend({
                             scale: 1,
                             unit: 'px',
-                            colorFormat: 'color-hex'
+                            colorFormat: 'color-hex',
+                            artboardOrder: 'artboard-rows'
                         }, data),
                 id = getDesignResolutionID(data.scale, data.unit);
              $('.resolution input').change(function(){
@@ -124,6 +137,7 @@
 
             checkResolution(id);
             $('#' + data.colorFormat).click();
+            $('#' + data.artboardOrder).click();
 
             if(id == 'custom'){
                 $('input[name=scale]').val(data.scale);
@@ -206,7 +220,6 @@
         // $(function(){
         //     init()
         // });
-    -->
     </script>
   </head>
   <body></body>

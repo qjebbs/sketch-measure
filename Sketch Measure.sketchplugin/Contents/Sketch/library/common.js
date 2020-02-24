@@ -744,6 +744,51 @@ SM.extend({
             // Calculate next row.
             unCalcData = artboardDatas.filter(a => !a.row)
         }
+    },
+    calcArtboardsColumn: function (artboardDatas) {
+        let Col = 0;
+        let unCalcData = artboardDatas;
+        let colLeft = 0;
+        let colRight = 0;
+        while (unCalcData.length) {
+            Col++;
+            // Find the left most artboard to start the column
+            let leftMost = unCalcData[0];
+            for (let item of unCalcData) {
+                if (leftMost.x1 > item.x1) {
+                    leftMost = item;
+                }
+            }
+            // console.log("left most: " + leftMost.name);
+            colLeft = leftMost.x1;
+            colRight = leftMost.x2;
+            // Find intersecting artboards
+            let isRangeExtened = true;
+            while (isRangeExtened) {
+                // Column range may updates when new item found,
+                // new range could include more items.
+                // So, loop until range not extended.
+                isRangeExtened = false;
+                for (let item of artboardDatas.filter(a => !a.column)) {
+                    // If not on right or left of the range,
+                    // we found an intersecting artboard.
+                    if (!(item.x1 > colRight || item.x2 < colLeft)) {
+                        // Extend column range.
+                        if (colLeft > item.x1) {
+                            colLeft = item.x1;
+                            isRangeExtened = true;
+                        }
+                        if (colRight < item.x2) {
+                            colRight = item.x2;
+                            isRangeExtened = true;
+                        }
+                        item.column = Col;
+                    }
+                }
+            }
+            // Calculate next column.
+            unCalcData = artboardDatas.filter(a => !a.column)
+        }
     }
 });
 
@@ -1418,11 +1463,12 @@ SM.extend({
             data.scale = this.configs.scale;
             data.unit = this.configs.unit;
             data.colorFormat = this.configs.colorFormat;
+            data.artboardOrder = this.configs.artboardOrder;
         }
 
         return this.SMPanel({
             width: 240,
-            height: 316,
+            height: 386,
             data: data,
             callback: function (data) {
                 self.configs = self.setConfigs(data);
@@ -3028,15 +3074,33 @@ SM.extend({
                 artboardData.x2 = artboardData.x1 + artboard.rect().size.width;
                 artboardData.y2 = artboardData.y1 + artboard.rect().size.height;
                 artboardData.row = undefined;
+                artboardData.column = undefined;
                 pageData.artboards.push(artboardData);
                 // }
             }
-            this.calcArtboardsRow(pageData.artboards);
-            pageData.artboards.sort((a, b) => {
-                return a.row > b.row ||
-                    (a.row == b.row && a.x1 > b.x1) ||
-                    (a.row == b.row && a.x1 == b.x1 && a.y1 > b.y2)
-            });
+            switch (this.configs.artboardOrder) {
+                case 'layer-order':
+                    pageData.artboards.reverse();
+                    break;
+                case 'artboard-cols':
+                    this.calcArtboardsColumn(pageData.artboards);
+                    pageData.artboards.sort((a, b) => {
+                        return a.column > b.column ||
+                            (a.column == b.column && a.y1 > b.y1) ||
+                            (a.column == b.column && a.y1 == b.y1 && a.x1 > b.x2)
+                    });
+                    break;
+                case 'artboard-rows':
+                default:
+                    this.calcArtboardsRow(pageData.artboards);
+                    pageData.artboards.sort((a, b) => {
+                        return a.row > b.row ||
+                            (a.row == b.row && a.x1 > b.x1) ||
+                            (a.row == b.row && a.x1 == b.x1 && a.y1 > b.y2)
+                    });
+                    break;
+                    break;
+            }
             data.pages.push(pageData);
         }
 
