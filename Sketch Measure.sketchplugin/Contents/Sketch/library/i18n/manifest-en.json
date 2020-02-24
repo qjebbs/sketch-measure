@@ -177,7 +177,7 @@
     "identifier": "co.jebbs.measure",
     "appcast": "https://raw.githubusercontent.com/qjebbs/sketch-measure/master/appcast.xml",
     "homepage": "http://utom.design/measure/",
-    "version": "2.9.0",
+    "version": "2.9.1",
     "description" : "Make it a fun to create spec for developers and teammates",
     "authorEmail" : "qjebbs@gmail.com",
     "name" : "Sketch Measure"
